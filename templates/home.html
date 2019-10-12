@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% block body %}
+{% include "navbar.html" %}
+
+<head>
+  <meta charset='utf-8'>
+  <link rel='stylesheet' href='../static/css/style.css'>
+  <script src='../static/js/scripts.js'></script>
+</head>
+
+<section class="hero is-primary is-bold is-large">
+  <div class="hero-body" style="padding-top: 20px">
+    <div style="float: right;">
+      <h2>Monthly service for $10.00</h2>
+      {% if not user.active %}
+      <form action="/charge" method="post">
+        <script src="https://checkout.stripe.com/checkout.js" class="stripe-button" data-key="{{ user.key }}"
+          data-description="Pneumonia Identification Monthly Charge" data-amount="1000" data-locale="auto">
+          </script>
+      </form>
+      {% endif %}
+      {% if user.active %}
+      <div><span>already done</span></div>
+      {% endif %}
+    </div>
+    <div>
+      {% if user.active %}
+      <form id="upload-file" method="post" enctype="multipart/form-data">
+        <label for="imageUpload" class="upload-label">
+          Choose...
+        </label>
+        <input type="file" name="file" id="imageUpload" accept=".csv">
+      </form>
+      {% endif %}
+      {% if not user.active %}
+      <div><span>Activate subscription with payment</span></div>
+      {% endif %}
+      <div class="image-section" style="display:none;">
+        <div>
+          <button type="button" class="upload-label" id="btn-predict">Pneumonia Identification</button>
+        </div>
+      </div>
+    </div>
+    <div class="loader" style="display:none;"></div>
+    <h1 id="result">
+      <span> </span>
+    </h1>
+    <div style="padding-top: 40px">
+
+    <div class='center'>
+      <div class='title'>Pneumonia Identification</div>
+      <p>
+        <strong>Use Chest X-Ray Images (Kaggle)</strong> 
+      </p>
+      <div class='content'>
+        <div class='no-display'>
+          <input id='file-input'
+                 class='no-display'
+                 type='file'
+                 name='file'
+                 accept='image/*'
+                 onchange='showPicked(this)'>
+        </div>
+        <button class='choose-file-button' type='button' onclick='showPicker()'>Select Image</button>
+        <div class='upload-label'>
+          <label id='upload-label'>No file chosen</label>
+        </div>
+        <div>
+          <img id='image-picked' class='no-display' alt='Chosen Image' height='200'>
+        </div>
+        <div class='analyze'>
+          <button id='analyze-button' class='analyze-button' type='button' onclick='analyze()'>Analyze</button>
+        </div>
+        <div class='result-label'>
+          <label id='result-label'></label>
+        </div>
+      </div>
+    </div>
+
+    </div>
+    <img src="../static/img/example.jpg" alt="">
+  </div>
+
+
+</section>
+{% endblock %}
+{% block scripts %}
+<script src="../static/js/scripts.js"></script>
+{% endblock %}
