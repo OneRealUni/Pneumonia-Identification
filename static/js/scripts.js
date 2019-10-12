@@ -1,3 +1,5 @@
+var el = x => document.getElementById(x);
+
 function message(status, shake=false, id="") {
   if (shake) {
     $("#"+id).effect("shake", {direction: "right", times: 2, distance: 8}, 250);
