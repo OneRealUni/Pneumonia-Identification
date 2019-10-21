@@ -1,3 +1,7 @@
+.no-display {
+    display: none;
+}
+
 .login-input {
   width: 130px;
 }
